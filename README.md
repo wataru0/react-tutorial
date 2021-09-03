@@ -1,3 +1,3 @@
 # React tutorial
 
-[Web app](https://wataru0.github.io/react-tutorial/)
+[Go to app.](https://wataru0.github.io/react-tutorial/)
