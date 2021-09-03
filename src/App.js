@@ -2,7 +2,7 @@
 // ReactではJSXという構文でHTMLをマークアップする
 // App()のようなJSXを返すような関数をコンポーネントと呼ぶ
 // コンポーネントはただのJavaScriptの関数！！マークアップと同時にJS書ける！
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {fetchImages} from './api';
 
 function Header() {
@@ -38,8 +38,6 @@ function Loading() {
 }
 
 function Gallery(props) {
-    // const url = "https://images.dog.ceo/breeds/shiba/shiba-8.jpg"
-    
     // propsオブジェクトの分割代入！！urlsプロパティを配列として受け取る
     const {urls} = props; 
     // console.log(props);
@@ -62,22 +60,17 @@ function Gallery(props) {
 }
 
 function Main() {
-    // const urls = [
-    //     "https://images.dog.ceo/breeds/shiba/shiba-11.jpg",
-    //     "https://images.dog.ceo/breeds/shiba/shiba-12.jpg",
-    //     "https://images.dog.ceo/breeds/shiba/shiba-14.jpg",
-    //     "https://images.dog.ceo/breeds/shiba/shiba-17.jpg",
-    //     "https://images.dog.ceo/breeds/shiba/shiba-2.jpg",
-    //     "https://images.dog.ceo/breeds/shiba/shiba-3i.jpg",
-    //     "https://images.dog.ceo/breeds/shiba/shiba-4.jpg",
-    //     "https://images.dog.ceo/breeds/shiba/shiba-5.jpg",
-    //     "https://images.dog.ceo/breeds/shiba/shiba-6.jpg",
-    //     "https://images.dog.ceo/breeds/shiba/shiba-7.jpg",
-    //     "https://images.dog.ceo/breeds/shiba/shiba-8.jpg",
-    //     "https://images.dog.ceo/breeds/shiba/shiba-9.jpg",
-    //   ];
-    const urls = null;
-    
+    // const urls = null;
+    // useState: 関数コンポーネントでstateを管理（保持と更新）するためのReactフック
+    // useEffect: 関数の実行タイミングをレンダリング後まで遅らせるフック，第二引数で第一引数の実行タイミングを指定できる
+    // urlsという名前のstate変数を宣言，初期値nullをセット.第二要素はstateの現在の値を更新するための関数
+    const [urls, setUrls] = useState(null);
+    useEffect(() => {
+        fetchImages("shiba").then((urls) => {
+            // urlsのstateをfetchが成功した値（async関数がPromiseを返した正規のurl）に更新
+            setUrls(urls);
+        });
+    }, []);
     return (
         <main>
             <section className="section">
